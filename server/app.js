@@ -5,6 +5,7 @@
 // npm install -g nodemon (then)
 // nodemon app.js
 
+require('dotenv').config();
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 // Middleware => CORS (Cross-Origin Resource Sharing)
 app.use(require('./middleware/headers'));
+app.use(require('./middleware/validate-session'));
 
 app.use('/api/user', require('./routes/user'));
 //login route
