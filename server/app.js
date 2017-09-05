@@ -16,9 +16,14 @@ User.sync();
 // User.sync({ force: true }); //DANGER: THIS WILL DROP (DELETE) THE USER TABLE!!!
 
 app.use(bodyParser.json());
+
 // Middleware => CORS (Cross-Origin Resource Sharing)
 app.use(require('./middleware/headers'));
+
 app.use('/api/user', require('./routes/user'));
+//login route
+app.use('/api/login', require('./routes/session'));
+
 //this links with client
 app.use('/api/test', function(req, res){
 	res.send('Hello World');
