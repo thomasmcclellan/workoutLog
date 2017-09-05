@@ -13,7 +13,7 @@ router.post('/', function(req, res){
 				//If the password doesn't match, show that the failure to authenticate
 			//If the request is not successful and there is not a user that matches that request, throw an error
 			//3) If the request was not successful and that user doesn't exist, throw an error
-	User.findOne( { where: { username: req.body.user.username } } ).then(
+	User.findOne({ where:{ username: req.body.user.username }}).then(
 		function(user) {
 			if (user) {
 				bcrypt.compare(req.body.user.password, user.passwordhash, function(err, matches){
