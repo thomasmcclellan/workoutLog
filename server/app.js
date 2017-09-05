@@ -41,8 +41,6 @@ sequelize.authenticate().then(
 
 
 
-
-
 // Build a user model in sqllize
 var User = sequelize.define('user', {
 	username: Sequelize.STRING,
@@ -51,7 +49,7 @@ var User = sequelize.define('user', {
 
 //This does not drop the db, and it helps with data persistence
 User.sync();
-//User.sync({ force: true });
+// User.sync({ force: true }); //DANGER: THIS WILL DROP (DELETE) THE USER TABLE!!!
 
 app.use(bodyParser.json());
 
