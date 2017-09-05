@@ -8,6 +8,13 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var sequelize = require('./db.js');
+var User = sequelize.import('./models/user');
+
+User.sync();
+// User.sync({ force: true }); //DANGER: THIS WILL DROP (DELETE) THE USER TABLE!!!
+
+app.use(bodyParser.json());
 
 // Middleware => CORS (Cross-Origin Resource Sharing)
 app.use(require('./middleware/headers'));
@@ -21,37 +28,6 @@ app.listen(3000, function(){
 	console.log("app is listening on 3000");
 });
 
-
-// Sequelize
-var Sequelize = require('sequelize');
-var sequelize = new Sequelize('workoutlog', 'postgres', 'PostgresBear2016!', {
-	host: 'localhost',
-	dialect: 'postgres'
-});
-
-sequelize.authenticate().then(
-	function(){
-		console.log('connected to workoutlog postgres db');
-	}, 
-	function(err){
-		console.log(err);
-	}
-);
-
-
-
-
-// Build a user model in sqllize
-var User = sequelize.define('user', {
-	username: Sequelize.STRING,
-	passwordhash: Sequelize.STRING
-});
-
-//This does not drop the db, and it helps with data persistence
-User.sync();
-// User.sync({ force: true }); //DANGER: THIS WILL DROP (DELETE) THE USER TABLE!!!
-
-app.use(bodyParser.json());
 
 app.post('/api/user', function(req, res){
 	var username = req.body.user.username;
