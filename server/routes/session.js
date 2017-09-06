@@ -25,11 +25,11 @@ router.post('/', function(req, res){
 							sessionToken: token
 						});
 					}else {
-					res.status(502).send({ error: "failed to authenticate" });
+					res.status(500).send({ error: "failed to authenticate" });
 					}
 				});
 			} else {
-				res.status(501).send({ error: "failed to authenticate" });
+				res.status(500).send({ error: "failed to authenticate" });
 			}
 		},
 		function(err) {

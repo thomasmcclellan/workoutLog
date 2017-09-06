@@ -13,7 +13,10 @@ var sequelize = require('./db.js');
 
 var User = sequelize.import('./models/user');
 
-User.sync();
+sequelize.sync();
+// sequelize.sync({ force: true }); //DANGER: THIS WILL DROP (DELETE) THE USER TABLE!!!
+
+// User.sync();
 // User.sync({ force: true }); //DANGER: THIS WILL DROP (DELETE) THE USER TABLE!!!
 
 app.use(bodyParser.json());
@@ -25,6 +28,7 @@ app.use(require('./middleware/validate-session'));
 app.use('/api/user', require('./routes/user'));
 //login route
 app.use('/api/login', require('./routes/session'));
+app.use('/api/definition', require('./routes/definition'));
 
 //this links with client
 app.use('/api/test', function(req, res){
