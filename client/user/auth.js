@@ -21,22 +21,28 @@ $(function(){
 				contentType: "application/json"
 			});
 			//signup done/fail
-			signup.done(function(data){
-				if (data.sessionToken){
-					WorkoutLog.setAuthHeader(data.sessionToken);
-					WorkoutLog.definition.fetchAll();
-					WorkoutLog.log.fetchAll();
+			signup
+				.done(function(data){
+					if (data.sessionToken){
+						WorkoutLog.setAuthHeader(data.sessionToken);
+						WorkoutLog.definition.fetchAll();
+						WorkoutLog.log.fetchAll();
 
-					console.log("You made it!");
-					console.log(data.sessionToken);
-				}
+						console.log("You made it!");
+						console.log(data.sessionToken);
+					}
 
-				$('#signup-modal').modal('hide');
-				$('.disabled').removeClass('disabled');
-				$('#loginout').text('Logout');
-			}).fail(function(){
-				$('#su_error').text("There was an issue with sign up").show();
-			});
+					$('#signup-modal').modal('hide');
+					$('.disabled').removeClass('disabled');
+					$('#loginout').text('Logout');
+					$("#su_username").val("");
+					$("#su_password").val("");
+					//routing
+					$("a[href='#define']").tab('show');
+				})
+				.fail(function(){
+					$('#su_error').text("There was an issue with sign up").show();
+				});
 		},
 		//login method
 		login: function(){
@@ -57,20 +63,26 @@ $(function(){
 				contentType: "application/json"
 			});
 			//login done/fail
-			login.done(function(data){
-				if (data.sessionToken){
-					WorkoutLog.setAuthHeader(data.sessionToken);
-					WorkoutLog.definition.fetchAll();
-					WorkoutLog.log.fetchAll();
+			login
+				.done(function(data){
+					if (data.sessionToken){
+						WorkoutLog.setAuthHeader(data.sessionToken);
+						WorkoutLog.definition.fetchAll();
+						WorkoutLog.log.fetchAll();
+						
+						console.log(data.sessionToken);
+					}
+					$("#login-modal").modal("hide");
+					$(".disabled").removeClass("disabled");
+					$("#loginout").text("Logout");
 					
-					console.log(data.sessionToken);
-				}
-				$("#login-modal").modal("hide");
-				$(".disabled").removeClass("disabled");
-				$("#loginout").text("Logout");
-			}).fail(function(){
-				$("#li_error").text("There was an issue with sign up").show();
-			});
+					$("#li_username").val("");
+					$("#li_password").val("");
+					$("a[href='#define']").tab("show");
+				})
+				.fail(function(){
+					$("#li_error").text("There was an issue with sign up").show();
+				});
 		},
 		//loginout method
 		loginout: function(){
