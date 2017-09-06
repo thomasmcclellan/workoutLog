@@ -15,14 +15,14 @@ router.post("/", function(req, res){
 		owner: owner
 	}).then(
 		//createSuccess function
-		function.createSuccess(definition){
+		function createSuccess(definition){
 			//send a response as json
 			res.json({
 				definition: definition
 			});
 		},
 		//createError function
-		function.createError(err){
+		function createError(err){
 			res.send(500, err.message);
 		}
 	);
