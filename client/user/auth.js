@@ -24,6 +24,9 @@ $(function(){
 			signup.done(function(data){
 				if (data.sessionToken){
 					WorkoutLog.setAuthHeader(data.sessionToken);
+					WorkoutLog.definition.fetchAll();
+					WorkoutLog.log.fetchAll();
+
 					console.log("You made it!");
 					console.log(data.sessionToken);
 				}
@@ -57,6 +60,9 @@ $(function(){
 			login.done(function(data){
 				if (data.sessionToken){
 					WorkoutLog.setAuthHeader(data.sessionToken);
+					WorkoutLog.definition.fetchAll();
+					WorkoutLog.log.fetchAll();
+					
 					console.log(data.sessionToken);
 				}
 				$("#login-modal").modal("hide");
