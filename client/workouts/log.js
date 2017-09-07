@@ -51,19 +51,22 @@ $(function(){
 					$("a[href='#history']").tab("show");
 				});
 			},
-			fetchAll: function(){
-				var fetchDefs = $.ajax({
+			getWorkout: function(){
+				var thisLog = { id: $(this).attr("id")};
+				console.log(thisLog);
+				logID = thisLog.id;
+				var updateData = { log: thisLog };
+				var getLog = $.ajax({
 					type: "GET",
-					url: WorkoutLog.API_BASE + "log",
-					headers: {
-						"authorization": window.localStorage.getItem("sessionToken")
-					}
-				})
-				.done(function(data){
-					WorkoutLog.log.workouts = data;
-				})
-				.fail(function(err){
-					console.log(err);
+					url: WorkoutLog.API_BASE + "log/" + logID,
+					data: JSON.stringify(updateData),
+					contentType: "application/json"
+				});
+				getLog.done(function(data){
+					$("a[href='#update-log']").tab("show");
+					$("#update-result").val(data.result);
+					$("#update-description").val(data.description);
+					$("#update-id").val(data.id);
 				});
 			},
 			delete: function(){
@@ -93,13 +96,31 @@ $(function(){
 				deleteLog.fail(function(){
 					console.log("nope, you dind't delete it.");
 				});
+			},
+			fetchAll: function(){
+				var fetchDefs = $.ajax({
+					type: "GET",
+					url: WorkoutLog.API_BASE + "log",
+					headers: {
+						"authorization": window.localStorage.getItem("sessionToken")
+					}
+				})
+				.done(function(data){
+					WorkoutLog.log.workouts = data;
+				})
+				.fail(function(err){
+					console.log(err);
+				});
 			}
 		}
 	});
 	//click the button and create a log entry
 	$("#log-save").on("click", WorkoutLog.log.create);
 	$("#history-list").delegate(".remove", "click", WorkoutLog.log.delete);
+	$("#log-update").on("click", WorkoutLog.log.updateWorkout);
+	$("#history-list").delegate('.update', 'click', WorkoutLog.log.getWorkout);
 
+	//fetch history if we already are authenticated and refreshed
 	if (window.localStorage.getItem("sessionToken")){
 		WorkoutLog.log.fetchAll();
 	}
